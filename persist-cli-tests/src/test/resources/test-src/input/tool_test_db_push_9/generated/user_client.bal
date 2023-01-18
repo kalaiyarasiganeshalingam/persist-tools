@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for User.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -39,6 +40,10 @@ public client class UserClient {
     }
 
     remote function create(User value) returns User|persist:Error {
+        User|error validationResult = constraint:validate(value, User);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runInsertQuery(value);
         return value;
     }
@@ -57,14 +62,26 @@ public client class UserClient {
     }
 
     remote function update(User value) returns persist:Error? {
+        User|error validationResult = constraint:validate(value, User);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
     }
 
     remote function delete(User value) returns persist:Error? {
+        User|error validationResult = constraint:validate(value, User);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(User user) returns boolean|persist:Error {
+        User|error validationResult = constraint:validate(user, User);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         User|persist:Error result = self->readByKey(user.id);
         if result is User {
             return true;

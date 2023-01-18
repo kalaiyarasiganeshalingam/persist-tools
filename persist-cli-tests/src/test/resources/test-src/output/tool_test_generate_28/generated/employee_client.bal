@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for Employee.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -34,6 +35,10 @@ public client class EmployeeClient {
     }
 
     remote function create(Employee value) returns Employee|persist:Error {
+        Employee|error validationResult = constraint:validate(value, Employee);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         if value.company is Company {
             CompanyClient companyClient = check new CompanyClient();
             boolean exists = check companyClient->exists(<Company>value.company);
@@ -59,6 +64,10 @@ public client class EmployeeClient {
     }
 
     remote function update(Employee value) returns persist:Error? {
+        Employee|error validationResult = constraint:validate(value, Employee);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
         if value.company is record {} {
             Company companyEntity = <Company>value.company;
@@ -68,10 +77,18 @@ public client class EmployeeClient {
     }
 
     remote function delete(Employee value) returns persist:Error? {
+        Employee|error validationResult = constraint:validate(value, Employee);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(Employee employee) returns boolean|persist:Error {
+        Employee|error validationResult = constraint:validate(employee, Employee);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         Employee|persist:Error result = self->readByKey(employee.id);
         if result is Employee {
             return true;

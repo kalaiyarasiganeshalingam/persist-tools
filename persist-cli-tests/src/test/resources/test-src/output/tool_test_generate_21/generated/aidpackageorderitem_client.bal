@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for AidPackageOrderItem.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -39,6 +40,10 @@ public client class AidPackageOrderItemClient {
     }
 
     remote function create(AidPackageOrderItem value) returns AidPackageOrderItem|persist:Error {
+        AidPackageOrderItem|error validationResult = constraint:validate(value, AidPackageOrderItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         if value.medicalNeed is MedicalNeed {
             MedicalNeedClient medicalNeedClient = check new MedicalNeedClient();
             boolean exists = check medicalNeedClient->exists(<MedicalNeed>value.medicalNeed);
@@ -64,6 +69,10 @@ public client class AidPackageOrderItemClient {
     }
 
     remote function update(AidPackageOrderItem value) returns persist:Error? {
+        AidPackageOrderItem|error validationResult = constraint:validate(value, AidPackageOrderItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
         if value.medicalNeed is record {} {
             MedicalNeed medicalNeedEntity = <MedicalNeed>value.medicalNeed;
@@ -73,10 +82,18 @@ public client class AidPackageOrderItemClient {
     }
 
     remote function delete(AidPackageOrderItem value) returns persist:Error? {
+        AidPackageOrderItem|error validationResult = constraint:validate(value, AidPackageOrderItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(AidPackageOrderItem aidPackageOrderItem) returns boolean|persist:Error {
+        AidPackageOrderItem|error validationResult = constraint:validate(aidPackageOrderItem, AidPackageOrderItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         AidPackageOrderItem|persist:Error result = self->readByKey(aidPackageOrderItem.id);
         if result is AidPackageOrderItem {
             return true;

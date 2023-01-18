@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for MedicalNeed1.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -33,6 +34,10 @@ public client class MedicalNeed1Client {
     }
 
     remote function create(MedicalNeed1 value) returns MedicalNeed1|persist:Error {
+        MedicalNeed1|error validationResult = constraint:validate(value, MedicalNeed1);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         sql:ExecutionResult result = check self.persistClient.runInsertQuery(value);
         return {needId: <int>result.lastInsertId, period: value.period, urgency: value.urgency, quantity: value.quantity};
     }
@@ -51,14 +56,26 @@ public client class MedicalNeed1Client {
     }
 
     remote function update(MedicalNeed1 value) returns persist:Error? {
+        MedicalNeed1|error validationResult = constraint:validate(value, MedicalNeed1);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
     }
 
     remote function delete(MedicalNeed1 value) returns persist:Error? {
+        MedicalNeed1|error validationResult = constraint:validate(value, MedicalNeed1);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(MedicalNeed1 medicalNeed1) returns boolean|persist:Error {
+        MedicalNeed1|error validationResult = constraint:validate(medicalNeed1, MedicalNeed1);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         MedicalNeed1|persist:Error result = self->readByKey(medicalNeed1.needId);
         if result is MedicalNeed1 {
             return true;

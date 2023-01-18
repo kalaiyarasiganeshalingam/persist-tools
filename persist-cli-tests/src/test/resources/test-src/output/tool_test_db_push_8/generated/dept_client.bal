@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for Dept.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -34,6 +35,10 @@ public client class DeptClient {
     }
 
     remote function create(Dept value) returns Dept|persist:Error {
+        Dept|error validationResult = constraint:validate(value, Dept);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runInsertQuery(value);
         return value;
     }
@@ -52,14 +57,26 @@ public client class DeptClient {
     }
 
     remote function update(Dept value) returns persist:Error? {
+        Dept|error validationResult = constraint:validate(value, Dept);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
     }
 
     remote function delete(Dept value) returns persist:Error? {
+        Dept|error validationResult = constraint:validate(value, Dept);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(Dept dept) returns boolean|persist:Error {
+        Dept|error validationResult = constraint:validate(dept, Dept);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         Dept|persist:Error result = self->readByKey(dept.id);
         if result is Dept {
             return true;

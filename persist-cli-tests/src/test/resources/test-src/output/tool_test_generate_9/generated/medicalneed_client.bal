@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for MedicalNeed.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -35,6 +36,10 @@ public client class MedicalNeedClient {
     }
 
     remote function create(MedicalNeed value) returns MedicalNeed|persist:Error {
+        MedicalNeed|error validationResult = constraint:validate(value, MedicalNeed);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         sql:ExecutionResult result = check self.persistClient.runInsertQuery(value);
         return {needId: <int>result.lastInsertId, itemId: value.itemId, beneficiaryId: value.beneficiaryId, period: value.period, urgency: value.urgency, quantity: value.quantity};
     }
@@ -53,14 +58,26 @@ public client class MedicalNeedClient {
     }
 
     remote function update(MedicalNeed value) returns persist:Error? {
+        MedicalNeed|error validationResult = constraint:validate(value, MedicalNeed);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
     }
 
     remote function delete(MedicalNeed value) returns persist:Error? {
+        MedicalNeed|error validationResult = constraint:validate(value, MedicalNeed);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(MedicalNeed medicalNeed) returns boolean|persist:Error {
+        MedicalNeed|error validationResult = constraint:validate(medicalNeed, MedicalNeed);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         MedicalNeed|persist:Error result = self->readByKey({itemId: medicalNeed.itemId, needId: medicalNeed.needId});
         if result is MedicalNeed {
             return true;

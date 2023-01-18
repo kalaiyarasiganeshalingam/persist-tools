@@ -235,5 +235,9 @@ public class BalSyntaxConstants {
 
 
     public static final String MYSQL_DRIVER = "mysql.driver";
+    public static final String VALIDATE_RECORD = "%s|error validationResult = constraint:validate(%s, %s);";
+    public static final String IS_CONSTRAINTS_VALIDATION_ERROR = "validationResult is error";
+    public static final String RETURN_PERSIST_ERROR = "return <persist:Error>error(validationResult.message());";
+    public static final String CONSTRAINTS = "constraint";
 
 }

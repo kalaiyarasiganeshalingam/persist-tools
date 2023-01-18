@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for MultipleAssociations.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -43,6 +44,10 @@ public client class MultipleAssociationsClient {
     }
 
     remote function create(MultipleAssociations value) returns MultipleAssociations|persist:Error {
+        MultipleAssociations|error validationResult = constraint:validate(value, MultipleAssociations);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         if value.owner is User {
             UserClient userClient = check new UserClient();
             boolean exists = check userClient->exists(<User>value.owner);
@@ -82,6 +87,10 @@ public client class MultipleAssociationsClient {
     }
 
     remote function update(MultipleAssociations value) returns persist:Error? {
+        MultipleAssociations|error validationResult = constraint:validate(value, MultipleAssociations);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
         if value.owner is record {} {
             User userEntity = <User>value.owner;
@@ -101,10 +110,18 @@ public client class MultipleAssociationsClient {
     }
 
     remote function delete(MultipleAssociations value) returns persist:Error? {
+        MultipleAssociations|error validationResult = constraint:validate(value, MultipleAssociations);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(MultipleAssociations multipleAssociations) returns boolean|persist:Error {
+        MultipleAssociations|error validationResult = constraint:validate(multipleAssociations, MultipleAssociations);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         MultipleAssociations|persist:Error result = self->readByKey(multipleAssociations.id);
         if result is MultipleAssociations {
             return true;

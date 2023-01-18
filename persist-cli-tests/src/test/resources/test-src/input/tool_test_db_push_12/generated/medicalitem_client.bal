@@ -1,4 +1,5 @@
 import ballerina/sql;
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 
@@ -26,6 +27,10 @@ public client class MedicalItemClient {
     }
 
     remote function create(MedicalItem value) returns MedicalItem|persist:Error {
+        MedicalItem|error validationResult = constraint:validate(value, MedicalItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         sql:ExecutionResult result = check self.persistClient.runInsertQuery(value);
         if result.lastInsertId is () {
             return value;
@@ -47,14 +52,26 @@ public client class MedicalItemClient {
     }
 
     remote function update(MedicalItem value) returns persist:Error? {
+        MedicalItem|error validationResult = constraint:validate(value, MedicalItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
     }
 
     remote function delete(MedicalItem value) returns persist:Error? {
+        MedicalItem|error validationResult = constraint:validate(value, MedicalItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(MedicalItem medicalItem) returns boolean|persist:Error {
+        MedicalItem|error validationResult = constraint:validate(medicalItem, MedicalItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         MedicalItem|persist:Error result = self->readByKey(medicalItem.itemId);
         if result is MedicalItem {
             return true;

@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for MedicalItem.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -40,6 +41,10 @@ public client class MedicalItemClient {
     }
 
     remote function create(MedicalItem value) returns MedicalItem|persist:Error {
+        MedicalItem|error validationResult = constraint:validate(value, MedicalItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runInsertQuery(value);
         return value;
     }
@@ -58,14 +63,26 @@ public client class MedicalItemClient {
     }
 
     remote function update(MedicalItem value) returns persist:Error? {
+        MedicalItem|error validationResult = constraint:validate(value, MedicalItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
     }
 
     remote function delete(MedicalItem value) returns persist:Error? {
+        MedicalItem|error validationResult = constraint:validate(value, MedicalItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(MedicalItem medicalItem) returns boolean|persist:Error {
+        MedicalItem|error validationResult = constraint:validate(medicalItem, MedicalItem);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         MedicalItem|persist:Error result = self->readByKey(medicalItem.itemId);
         if result is MedicalItem {
             return true;

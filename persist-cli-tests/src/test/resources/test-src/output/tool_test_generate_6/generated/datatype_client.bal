@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for DataType.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -39,6 +40,10 @@ public client class DataTypeClient {
     }
 
     remote function create(DataType value) returns DataType|persist:Error {
+        DataType|error validationResult = constraint:validate(value, DataType);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         sql:ExecutionResult result = check self.persistClient.runInsertQuery(value);
         return {a: <int>result.lastInsertId, b1: value.b1, c1: value.c1, d1: value.d1, e1: value.e1, f1: value.f1, j1: value.j1, k1: value.k1, l1: value.l1, m1: value.m1};
     }
@@ -57,14 +62,26 @@ public client class DataTypeClient {
     }
 
     remote function update(DataType value) returns persist:Error? {
+        DataType|error validationResult = constraint:validate(value, DataType);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
     }
 
     remote function delete(DataType value) returns persist:Error? {
+        DataType|error validationResult = constraint:validate(value, DataType);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(DataType dataType) returns boolean|persist:Error {
+        DataType|error validationResult = constraint:validate(dataType, DataType);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         DataType|persist:Error result = self->readByKey(dataType.a);
         if result is DataType {
             return true;

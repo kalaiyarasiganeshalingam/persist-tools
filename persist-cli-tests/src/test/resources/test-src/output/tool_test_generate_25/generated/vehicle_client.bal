@@ -3,6 +3,7 @@
 // This file is an auto-generated file by Ballerina persistence layer for Vehicle.
 // It should not be modified by hand.
 
+import ballerina/constraint;
 import ballerinax/mysql;
 import ballerina/persist;
 import ballerina/sql;
@@ -34,6 +35,10 @@ public client class VehicleClient {
     }
 
     remote function create(Vehicle value) returns Vehicle|persist:Error {
+        Vehicle|error validationResult = constraint:validate(value, Vehicle);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         if value.employee is Employee {
             EmployeeClient employeeClient = check new EmployeeClient();
             boolean exists = check employeeClient->exists(<Employee>value.employee);
@@ -59,6 +64,10 @@ public client class VehicleClient {
     }
 
     remote function update(Vehicle value) returns persist:Error? {
+        Vehicle|error validationResult = constraint:validate(value, Vehicle);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runUpdateQuery(value);
         if value.employee is record {} {
             Employee employeeEntity = <Employee>value.employee;
@@ -68,10 +77,18 @@ public client class VehicleClient {
     }
 
     remote function delete(Vehicle value) returns persist:Error? {
+        Vehicle|error validationResult = constraint:validate(value, Vehicle);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         _ = check self.persistClient.runDeleteQuery(value);
     }
 
     remote function exists(Vehicle vehicle) returns boolean|persist:Error {
+        Vehicle|error validationResult = constraint:validate(vehicle, Vehicle);
+        if validationResult is error {
+            return <persist:Error>error(validationResult.message());
+        }
         Vehicle|persist:Error result = self->readByKey(vehicle.model);
         if result is Vehicle {
             return true;
