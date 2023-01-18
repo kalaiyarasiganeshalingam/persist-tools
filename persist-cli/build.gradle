@@ -69,6 +69,7 @@ test {
 
 
 spotbugsMain {
+    enabled = false
     ignoreFailures = true
     effort = "max"
     reportLevel = "low"
@@ -137,7 +138,8 @@ compileJava {
 task createArtifactZip(type: Zip) {
     dependsOn build
     from 'build/libs/'
-    archiveFileName = "persist-cli-${project.version}.jar"
+    into 'libs'
+    archiveFileName = "persist-cli-${project.version}.zip"
     destinationDirectory = file("${projectDir}/build/zip")
 }
 

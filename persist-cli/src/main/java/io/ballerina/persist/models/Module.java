@@ -18,8 +18,11 @@
 
 package io.ballerina.persist.models;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class containing data related to entities and their respective nodes.
@@ -29,9 +32,15 @@ import java.util.Map;
 public class Module {
     private final Map<String, Entity> entityMap;
     private final String moduleName;
+    private final String clientName;
 
-    private Module(String moduleName, Map<String, Entity> entityMap) {
+    private Set<String> importModulePrefixes;
+
+    private Module(String moduleName, String clientName, Set<String> importModulePrefixes,
+                   Map<String, Entity> entityMap) {
         this.moduleName = moduleName;
+        this.clientName = clientName;
+        this.importModulePrefixes = importModulePrefixes;
         this.entityMap = entityMap;
     }
 
@@ -39,8 +48,16 @@ public class Module {
         return entityMap;
     }
 
+    public Set<String> getImportModulePrefixes() {
+        return importModulePrefixes;
+    }
+
     public String getModuleName() {
         return moduleName;
+    }
+
+    public String getClientName() {
+        return clientName;
     }
 
     public static Module.Builder newBuilder(String moduleName) {
@@ -51,8 +68,11 @@ public class Module {
      * Module Definition.Builder.
      */
     public static class Builder {
+        private static final String SUFFIX_CLIENT = "Client";
         String moduleName;
         Map<String, Entity> entityMap = new HashMap<>();
+
+        private Set<String> importModulePrefixes = new HashSet<>();
 
         private Builder(String moduleName) {
             this.moduleName = moduleName;
@@ -62,8 +82,23 @@ public class Module {
             this.entityMap.put(key, entity);
         }
 
+        public void addImportModulePrefix(String modulePrefix) {
+            this.importModulePrefixes.add(modulePrefix);
+        }
+
         public Module build() {
-            return new Module(moduleName, entityMap);
+            String clientName = convertTitleCase(moduleName) + SUFFIX_CLIENT;
+            return new Module(moduleName, clientName, importModulePrefixes, entityMap);
+        }
+
+        private String convertTitleCase(String moduleName) {
+            StringBuilder titleBuilder = new StringBuilder();
+            String[] moduleParts = moduleName.split(" +");
+            Arrays.stream(moduleParts).forEach(modulePart -> {
+                titleBuilder.append(modulePart.substring(0, 1).toUpperCase())
+                        .append(modulePart.substring(1));
+            });
+            return titleBuilder.toString();
         }
     }
 }

@@ -31,6 +31,7 @@ public class PersistToolsConstants {
     public static final String COMPONENT_IDENTIFIER = "persist";
 
     public static final String DEFAULT_USER = "root";
+    public static final String DEFAULT_PROVIDER = "mysql";
     public static final String DEFAULT_PORT = "3306";
     public static final String DEFAULT_PASSWORD = "";
     public static final String DEFAULT_DATABASE = "";
@@ -41,6 +42,7 @@ public class PersistToolsConstants {
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_DATABASE = "database";
     public static final String KEY_HOST = "host";
+    public static final String KEY_PROVIDER = "provider";
 
     public static final String CONFIG_SCRIPT_FILE = "Config.toml";
     public static final String PASSWORD = "password";
@@ -63,7 +65,9 @@ public class PersistToolsConstants {
     public static final String SQL_SCHEMA_FILE = "persist_db_scripts.sql";
     public static final String UNIQUE_CONSTRAINTS = "uniqueConstraints";
     public static final String PERSIST_DIRECTORY = "persist";
+    public static final String GENERATED_DIRECTORY = "generated";
     public static final String PERSIST_TOML_FILE = "Persist.toml";
+    public static final String PATH_BALLERINA_TOML = "Ballerina.toml";
     public static final String BALLERINA_MYSQL_DRIVER_NAME = "ballerinax/mysql.driver";
     public static final String PLATFORM = "java11";
     public static final String PROPERTY_KEY_PATH = "path";
