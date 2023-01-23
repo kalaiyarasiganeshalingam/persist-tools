@@ -1,6 +1,6 @@
 // AUTO-GENERATED FILE. DO NOT MODIFY.
 
-// This file is an auto-generated file by Ballerina persistence layer for entities.
+// This file is an auto-generated file by Ballerina persistence layer for entities1.
 // It should not be modified by hand.
 
 import ballerina/persist;
@@ -8,17 +8,17 @@ import ballerina/sql;
 import ballerinax/mysql;
 import ballerina/time;
 
-public client class EntitiesClient {
+public client class Entities1Client {
 
     private final mysql:Client dbClient;
 
     private final map<persist:SQLClient> persistClients;
 
-    private final map<persist:Metadata> metadata = {"multipleassociations": {entityName: "MultipleAssociations", tableName: "MultipleAssociations", id: {columnName: "id", 'type: int}, name: {columnName: "name", 'type: string}, profileId: {columnName: "profileId", 'type: int}, userId: {columnName: "userId", 'type: int} keyFields: ["id"]}, "user": {entityName: "User", tableName: "User", id: {columnName: "id", 'type: int}, name: {columnName: "name", 'type: string}, profileId: {columnName: "profileId", 'type: int}, keyFields: ["id"]}, "profile": {entityName: "Profile", tableName: "Profile", id: {columnName: "id", 'type: int}, name: {columnName: "name", 'type: string}, , keyFields: ["id"]}};
+    private final map<persist:Metadata> metadata = {"multipleassociations": {entityName: "MultipleAssociations", tableName: "MultipleAssociations", id: {columnName: "id", 'type: int}, name: {columnName: "name", 'type: string}, profileId: {columnName: "profileId", 'type: int} keyFields: ["id"]}, "profile": {entityName: "Profile", tableName: "Profile", id: {columnName: "id", 'type: int}, name: {columnName: "name", 'type: string}, keyFields: ["id"]}};
 
     public function init() returns persist:Error? {
         self.dbClient = check new (host = host, user = user, password = password, database = database, port = port);
-        self.persistClients = {"multipleassociations": check new (self.dbClient, self.metadata.get("multipleassociations").entityName, self.metadata.get("multipleassociations").tableName, self.metadata.get("multipleassociations").keyFields, self.metadata.get("multipleassociations").fieldMetadata), "user": check new (self.dbClient, self.metadata.get("user").entityName, self.metadata.get("user").tableName, self.metadata.get("user").keyFields, self.metadata.get("user").fieldMetadata), "profile": check new (self.dbClient, self.metadata.get("profile").entityName, self.metadata.get("profile").tableName, self.metadata.get("profile").keyFields, self.metadata.get("profile").fieldMetadata)};
+        self.persistClients = {"multipleassociations": check new (self.dbClient, self.metadata.get("multipleassociations").entityName, self.metadata.get("multipleassociations").tableName, self.metadata.get("multipleassociations").keyFields, self.metadata.get("multipleassociations").fieldMetadata), "profile": check new (self.dbClient, self.metadata.get("profile").entityName, self.metadata.get("profile").tableName, self.metadata.get("profile").keyFields, self.metadata.get("profile").fieldMetadata)};
     }
 
     public function close() returns persist:Error? {
@@ -51,32 +51,6 @@ public client class EntitiesClient {
     isolated resource function delete multipleassociations/[int id]() returns MultipleAssociations|persist:Error {
         MultipleAssociations 'object = check self->/multipleassociations/[id].get();
         _ = check self.persistClients.get("multipleassociations").runDeleteQuery({"id": id, });
-        return 'object;
-    }
-
-    isolated resource function get user() returns stream<User, persist:Error?> {
-        stream<anydata, sql:Error?>|persist:Error result = self.persistClients.get("user").runReadQuery(User);
-        if result is persist:Error {
-            return new stream<User, persist:Error?>(new UserStream((), result));
-        } else {
-            return new stream<User, persist:Error?>(new UserStream(result));
-        }
-    }
-    isolated resource function get user/[int id]() returns User|persist:Error {
-        return (check self.persistClients.get("user").runReadByKeyQuery(User, id)).cloneWithType(User);
-    }
-    isolated resource function post user(UserInsert[] data) returns [int][]|persist:Error {
-        _ = check self.persistClients.get("user").runBatchInsertQuery(data);
-        return from UserInsert inserted in data
-            select [inserted.id];
-    }
-    isolated resource function put user/[int id](UserUpdate value) returns User|persist:Error {
-        _ = check self.persistClients.get("user").runUpdateQuery({"id": id, }, data);
-        return self->/user/[id].get();
-    }
-    isolated resource function delete user/[int id]() returns User|persist:Error {
-        User 'object = check self->/user/[id].get();
-        _ = check self.persistClients.get("user").runDeleteQuery({"id": id, });
         return 'object;
     }
 

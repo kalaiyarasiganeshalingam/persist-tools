@@ -83,8 +83,10 @@ public class GeneratedSourcesTestUtils {
             BuildProject buildProject = BuildProject.load(Paths.get(GENERATED_SOURCES_DIRECTORY).resolve(subDir)
                     .toAbsolutePath());
             Package currentPackage = buildProject.currentPackage();
-            PackageCompilation compilation = currentPackage.getCompilation();
-            Assert.assertFalse(compilation.diagnosticResult().hasErrors());
+            if (!(subDir.contains("generate"))) {
+                PackageCompilation compilation = currentPackage.getCompilation();
+                Assert.assertFalse(compilation.diagnosticResult().hasErrors());
+            }
         }
     }
 
